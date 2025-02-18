@@ -16,6 +16,10 @@ expect(memoizedSum(1, 2)).toBe(3); // Значение не пересчиыва
 expect(memoizedSum(1, 3)).toBe(4); // Значение пересчитывается и сохрнаяется в кэше
 ```
 
+## Чтобы запустить тесты
+
+`yarn vitest scopes_and_closures/memoize/memoize.test.ts`
+
 ## Полезные ссылки
 
 1. [Документация хука useMemp на странице react.dev](https://react.dev/reference/react/useMemo)

@@ -8,6 +8,10 @@ setState((prev) => prev + 5);
 setState(10);
 ```
 
+## Чтобы запустить тесты
+
+`yarn vitest scopes_and_closures/useState/useState.test.ts`
+
 ## Полезные ссылки
 
 1. [Документация useState на странице react.dev](https://react.dev/reference/react/useState)
