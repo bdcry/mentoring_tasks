@@ -1,8 +1,11 @@
 import { expect, test } from "vitest";
 
+import { useState } from "./useState";
+
 // Тест 1: Инициализация состояния
 test("useState should initialize state correctly", () => {
     const [state] = useState(42);
+    
     expect(state).toBe(42);
 });
 
@@ -10,6 +13,7 @@ test("useState should initialize state correctly", () => {
 test("useState should update state with a new value", () => {
     const [state, setState] = useState(0);
     setState(10);
+    
     expect(state).toBe(10);
 });
 
