@@ -15,6 +15,11 @@ export function useState(initialState) {
     state = typeof newState === 'function' ? newState(state) : newState;
   }
 
-  
-  return [state, dispatcher];
+
+  function getState() {
+    return state;
+  }
+
+
+  return [getState, dispatcher];
 }
