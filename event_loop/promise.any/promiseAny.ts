@@ -1,7 +1,12 @@
+
+// Возвращаемое значение Promise<T>
+// Промис работает не совсем корректно, так ка квсе равно выполняет промисы последовательно
+// с async await нельзя написать хороший promise any. Это как раз тот случай, когда нужна параллельная обработка промисов
 // @ts-ignore
-export const promiseAnyAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T[]> => {
+export const promiseAnyAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T> => {
   let minTime = Infinity;
   let fastestResult = null;
+
   let rejectedCount = 0;
 
   for (const promise of promises) {
@@ -16,6 +21,7 @@ export const promiseAnyAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T
         fastestResult = response;
       }
     } catch (err) {
+      rejectedCount += 1
       if (rejectedCount === promises.length) {
         throw new Error('All promises were rejected');
       }
@@ -30,13 +36,11 @@ export const promiseAnyAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T
   }
 };
 
-// @ts-ignore
-export const promiseAnyThenCatch = <T>(promises: Promise<T>[]): Promise<T[]> => {
+export const promiseAnyThenCatch = <T>(promises: Promise<T>[]): Promise<T> => {
   let rejectedCount = 0;
   return new Promise((resolve, reject) => {
     for (const promise of promises) {
       promise
-        // @ts-ignore
         .then(data => resolve(data))
         .catch(() => {
           rejectedCount++;
@@ -44,7 +48,7 @@ export const promiseAnyThenCatch = <T>(promises: Promise<T>[]): Promise<T[]> => 
           if (promises.length === rejectedCount) {
             reject(new Error('All promises were rejected'));
           }
-        }) 
+        })
     }
   })
 }

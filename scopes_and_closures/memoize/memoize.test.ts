@@ -43,4 +43,23 @@ describe('memoize', () => {
         expect(callCountStringConcat).toBe(1);
 
     });
+
+    test('Проверяем, что при передаче объектов с разными свойствами, кеширования не происходит', () => {
+
+        let callCountStringConcat = 0;
+
+        const concatStrings = ({ name, surname }: { name: string, surname: string }) => {
+            callCountStringConcat++;
+            return name + surname;
+        };
+
+        const memoizedConcatStrings = memoize(concatStrings);
+
+        expect(memoizedConcatStrings({ name: 'Ivan', surname: 'Petrov' })).toBe("IvanPetrov");
+        expect(callCountStringConcat).toBe(1);
+
+        expect(memoizedConcatStrings({ name: 'Alex', surname: 'Petrov' })).toBe("AlexPetrov");
+        expect(callCountStringConcat).toBe(2);
+
+    });
 });

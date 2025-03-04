@@ -5,6 +5,7 @@ import { useState } from "./useState";
 // Тест 1: Инициализация состояния
 test("useState should initialize state correctly", () => {
     const [getState] = useState(42);
+    
     expect(getState()).toBe(42);
 });
 
@@ -12,10 +13,11 @@ test("useState should initialize state correctly", () => {
 test("useState should update state with a new value", () => {
     const [getState, setState] = useState(0);
     setState(10);
+    
     expect(getState()).toBe(10);
 });
 
-// Тест 3: Обновление состояния с функцией
+// // Тест 3: Обновление состояния с функцией
 test("useState should update state with a function", () => {
     const [getState, setState] = useState(5);
     setState((prev) => prev + 5);
@@ -28,7 +30,7 @@ test("useState should initialize state with a function", () => {
     expect(getState()).toBe(100);
 });
 
-// Тест 5: Множественные обновления состояния
+// // Тест 5: Множественные обновления состояния
 test("useState should handle multiple state updates", () => {
     const [getState, setState] = useState(0);
     setState(1);

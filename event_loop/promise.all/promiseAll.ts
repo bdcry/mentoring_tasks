@@ -1,6 +1,4 @@
-// @ts-ignore
 export const promiseAllAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T[]> => {
-  // @ts-ignore
   const result = [];
 
   for (const promise of promises) {
@@ -10,10 +8,8 @@ export const promiseAllAsyncAwait = async <T>(promises: Promise<T>[]): Promise<T
   return result;
 }
 
-// @ts-ignore
 export const promiseAllThenCatch = <T>(promises: Promise<T>[]): Promise<T[]> => {
-  // @ts-ignore
-  const results = [];
+  const results: T[] = [];
   let counter = 0;
 
   return new Promise((resolve, reject) => {
@@ -24,7 +20,6 @@ export const promiseAllThenCatch = <T>(promises: Promise<T>[]): Promise<T[]> => 
           counter++;
 
           if (counter === promises.length) {
-            // @ts-ignore
             resolve(results);
           }
         })
