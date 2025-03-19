@@ -1,29 +1,21 @@
-  const parsePath = (path: string | Array<string | number>): Array<string | number> => {
-    if (Array.isArray(path)) return path;
+export const path = (obj: any, path: string | Array<string | number>, defaultValue: string): any | undefined => {
+  if (path.length === 0) {
+    return obj;
+  }
 
-    return path
-      .replace(/\[/g, '.')
-      .replace(/\]/g, '')
-      .split('.')
-      .filter((key: string) => key !== '');
-  };
+  if (obj === null || obj === undefined || Object.keys(obj).length === 0) {
+    return defaultValue;
+  }
 
-  export const path = <T extends Record<string | number, any>>(obj: T, path: string | Array<string | number>, defaultValue: T): T | undefined => {
-    if (path.length === 0) {
-      return obj;
-    }
+  const keys = Array.isArray(path) ? path : path.split('.');
+  console.log(keys);
 
-    if (!obj) {
-      return defaultValue;
-    }
+  let result = obj;
 
-    const keys = parsePath(path);
+  for (const key of keys) {
+    if (result === undefined) return defaultValue;
+    result = result[key];
+  }
 
-    let result = obj;
-
-    for (const key of keys) {
-      if (result === undefined) return defaultValue;
-      result = result[key];
-    }
-    return result === undefined ? defaultValue : result;
-  };
+  return result === undefined ? defaultValue : result;
+}
