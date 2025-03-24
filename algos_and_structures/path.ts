@@ -1,7 +1,24 @@
 type Path = string | Array<string | number>;
 
-const pathParser = (path: Path) => {
+const pathParser = (path: Path, obj: any) => {
   if (Array.isArray(path)) return path;
+
+
+  const simpleKeys = typeof path === 'string' ? path.split('.') : [];
+  let result = obj;
+  let success = true;
+
+  for (const key of simpleKeys) {
+    if (result !== null && key !== '' && key in result) {
+      result = result[key]
+    } else { 
+      success = false;
+    }
+  }
+
+  if (success && result !== undefined) {
+    return simpleKeys;
+  }
 
   // тут логика такая:
   // ищем все подстроки, которые начинаются с [ , за ней следует одна и более цифр \d+, и далее ].
@@ -23,7 +40,7 @@ export const path = (obj: any, path: Path, defaultValue: string): any | undefine
     return defaultValue;
   }
 
-  const keys = pathParser(path);
+  const keys = pathParser(path, obj);
   console.log(keys);
 
   let result = obj;
