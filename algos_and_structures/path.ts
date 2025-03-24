@@ -1,4 +1,20 @@
-export const path = (obj: any, path: string | Array<string | number>, defaultValue: string): any | undefined => {
+type Path = string | Array<string | number>;
+
+const pathParser = (path: Path) => {
+  if (Array.isArray(path)) return path;
+
+  // тут логика такая:
+  // ищем все подстроки, которые начинаются с [ , за ней следует одна и более цифр \d+, и далее ].
+  // круглые скобки - это группа (о да, спасибо regexp и гпт за это пояснение) => мы заменяем [0] на группу , то есть на .группа => .0
+  // ну и далее, если это начало массива, то просто обрезаем эту точку и передаем ключи. если нет, то на нет и суда нет.
+  // ну и в конце все это разбиваем на отдельные клюичики
+  const replaced = path.replace(/\[(\d+)\]/g, '.$1');
+  const trim = replaced.startsWith('.') ? replaced.slice(1) : replaced;
+  return trim.split('.');
+};
+
+
+export const path = (obj: any, path: Path, defaultValue: string): any | undefined => {
   if (path.length === 0) {
     return obj;
   }
@@ -7,7 +23,7 @@ export const path = (obj: any, path: string | Array<string | number>, defaultVal
     return defaultValue;
   }
 
-  const keys = Array.isArray(path) ? path : path.split('.');
+  const keys = pathParser(path);
   console.log(keys);
 
   let result = obj;
